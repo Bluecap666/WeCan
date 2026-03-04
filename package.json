@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/nested-workspace",
+  "workspaces": {
+    "packages": [
+      "frontend",
+      "backend"
+    ]
+  }
+}
