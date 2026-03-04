@@ -82,7 +82,7 @@ const gracefulShutdown = (signal: string) => {
   console.log(`${signal} received, shutting down gracefully...`)
   mongoose.connection.close(() => {
     process.exit(0)
-  })
+  }) as unknown as boolean
 }
 
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
