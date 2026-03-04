@@ -63,9 +63,10 @@ const startServer = async () => {
   await connectDB()
   
   const PORT = process.env.PORT || 3001
+  const HOST = '0.0.0.0'  // 云服务器需要绑定到所有网络接口
   
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`)
+  app.listen(PORT, HOST, () => {
+    console.log(`🚀 Server running on http://${HOST}:${PORT}`)
     console.log(`📍 Health check: http://localhost:${PORT}/health`)
     console.log(`📍 API v1: http://localhost:${PORT}/api/v1/test`)
   })
