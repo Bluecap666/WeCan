@@ -24,10 +24,17 @@ echo "🏗️  构建 Docker 镜像（这可能需要几分钟，首次构建会
 export NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
 
 # 重新构建服务（不使用缓存，确保使用新的 Dockerfile）
-docker-compose build --no-cache
+if ! docker-compose build --no-cache; then
+  echo "❌ Docker 构建失败，请检查日志"
+  echo "💡 提示：运行 'docker-compose logs' 查看详细信息"
+  exit 1
+fi
 
 echo "🚀 启动服务..."
-docker-compose up -d
+if ! docker-compose up -d; then
+  echo "❌ Docker 启动失败"
+  exit 1
+fi
 
 # 5. 等待服务就绪
 echo "⏳ 等待服务启动..."
