@@ -78,11 +78,11 @@ app.on('error', (err) => {
 })
 
 // 优雅关闭
-const gracefulShutdown = (signal: string) => {
+const gracefulShutdown = (signal: string): void => {
   console.log(`${signal} received, shutting down gracefully...`)
   mongoose.connection.close(() => {
     process.exit(0)
-  }) as unknown as boolean
+  })
 }
 
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
