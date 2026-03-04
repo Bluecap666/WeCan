@@ -62,7 +62,7 @@ const startServer = async () => {
   // 连接数据库
   await connectDB()
   
-  const PORT = process.env.PORT || 3001
+  const PORT = parseInt(process.env.PORT || '3001', 10)
   const HOST = '0.0.0.0'  // 云服务器需要绑定到所有网络接口
   
   app.listen(PORT, HOST, () => {
@@ -78,15 +78,15 @@ app.on('error', (err) => {
 })
 
 // 优雅关闭
-const gracefulShutdown = (signal: string): void => {
-  console.log(`${signal} received, shutting down gracefully...`)
+const gracefulShutdown = (): void => {
+  console.log('Shutting down gracefully...')
   mongoose.connection.close(() => {
     process.exit(0)
   })
 }
 
-process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
-process.on('SIGINT', () => gracefulShutdown('SIGINT'))
+process.on('SIGTERM', () => gracefulShutdown())
+process.on('SIGINT', () => gracefulShutdown())
 
 // 启动服务
 startServer().catch(console.error)
