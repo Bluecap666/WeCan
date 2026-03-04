@@ -18,8 +18,13 @@ echo "⏹️  停止现有服务..."
 docker-compose down
 
 # 4. 构建并启动服务
-echo "🏗️  构建 Docker 镜像..."
-docker-compose build
+echo "🏗️  构建 Docker 镜像（这可能需要几分钟，首次构建会使用国内镜像源加速）..."
+
+# 设置 npm 镜像源（加速安装）
+export NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
+
+# 重新构建服务（不使用缓存，确保使用新的 Dockerfile）
+docker-compose build --no-cache
 
 echo "🚀 启动服务..."
 docker-compose up -d
