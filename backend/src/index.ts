@@ -18,10 +18,7 @@ app.use(bodyParser({
   jsonLimit: '10mb'
 }))
 
-app.use(cors({
-  origin: '*',
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-}))
+app.use(cors())
 
 // 健康检查
 router.get('/health', async (ctx) => {
@@ -80,19 +77,15 @@ app.on('error', (err) => {
 })
 
 // 优雅关闭
-process.on('SIGTERM', () => {
-  console.log('SIGTERM received, shutting down gracefully...')
+const gracefulShutdown = (signal: string) => {
+  console.log(`${signal} received, shutting down gracefully...`)
   mongoose.connection.close(() => {
     process.exit(0)
   })
-})
+}
 
-process.on('SIGINT', () => {
-  console.log('SIGINT received, shutting down gracefully...')
-  mongoose.connection.close(() => {
-    process.exit(0)
-  })
-})
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
+process.on('SIGINT', () => gracefulShutdown('SIGINT'))
 
 // 启动服务
 startServer().catch(console.error)
